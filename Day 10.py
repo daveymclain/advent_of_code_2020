@@ -34,6 +34,18 @@ sample = """28
 3"""
 
 
+def create_list(data):
+    data = data.splitlines()
+    data = list(map(int, data))
+    data = sorted(data)
+    # Add device
+    data.append(data[-1] + 3)
+    # add start jolt
+    data.insert(0, 0)
+    return data
+
+
+# part 1
 def main(data):
     data = data.splitlines()
     data = list(map(int, data))
@@ -61,6 +73,7 @@ def main(data):
             continue
 
 
+# part 2
 count = 0
 
 
@@ -83,17 +96,6 @@ def solve(pos):
             inner_count += solve(pos + i)
     count += inner_count
     return inner_count
-
-
-def create_list(data):
-    data = data.splitlines()
-    data = list(map(int, data))
-    data = sorted(data)
-    # Add device
-    data.append(data[-1] + 3)
-    # add start jolt
-    data.insert(0, 0)
-    return data
 
 
 if __name__ == '__main__':
