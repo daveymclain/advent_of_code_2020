@@ -6,10 +6,8 @@ def create_list(data):
     data = data.splitlines()
     data = list(map(int, data))
     data = sorted(data)
-    # Add device
-    data.append(data[-1] + 3)
-    # add start jolt
-    data.insert(0, 0)
+    data.append(data[-1] + 3) # Add device
+    data.insert(0, 0) # add start jolt
     return data
 
 
@@ -18,7 +16,6 @@ def main(data):
     jolts_dif_1 = 0
     jolts_dif_3 = 0
     for pos, volt in enumerate(data):
-        # print("pos = {}. volt = {}".format(pos, volt))
         if pos == len(data) - 1:
             return jolts_dif_1, jolts_dif_3
         if data[pos + 1] - volt == 1:
