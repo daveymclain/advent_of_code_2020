@@ -15,20 +15,8 @@ def create_list(data):
 
 # part 1
 def main(data):
-    data = data.splitlines()
-    data = list(map(int, data))
-    start_jolts = 0
-    data = sorted(data)
-    # print(data)
     jolts_dif_1 = 0
     jolts_dif_3 = 0
-    # Add device
-    data.append(data[-1] + 3)
-    # work out the first difference
-    if data[0] - start_jolts == 1:
-        jolts_dif_1 += 1
-    if data[0] - start_jolts == 3:
-        jolts_dif_3 += 1
     for pos, volt in enumerate(data):
         # print("pos = {}. volt = {}".format(pos, volt))
         if pos == len(data) - 1:
@@ -67,8 +55,8 @@ def solve(pos):
 
 
 if __name__ == '__main__':
-    part_1_ans = main(DATA.Day_10)
-    print("part 1 ans = {}".format(part_1_ans[0] * part_1_ans[1]))
     adapter_list = create_list(DATA.Day_10)
+    part_1_ans = main(adapter_list)
+    print("part 1 ans = {}".format(part_1_ans[0] * part_1_ans[1]))
     print("part 2 ans = {}".format((solve(0))))
     print(solve.cache_info())
