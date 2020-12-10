@@ -1,5 +1,6 @@
 import DATA
 from memoization import cached
+
 sample = """28
 33
 18
@@ -60,6 +61,9 @@ def main(data):
             continue
 
 
+count = 0
+
+
 @cached
 def solve(pos):
     global count
@@ -68,7 +72,7 @@ def solve(pos):
         return 1
     for i in range(1, 4):
         list_len = len(adapter_list)
-        if pos + i > list_len -1:
+        if pos + i > list_len - 1:
             continue
         dif = adapter_list[pos + i] - adapter_list[pos]
         if dif == 1:
@@ -81,29 +85,15 @@ def solve(pos):
     return inner_count
 
 
-
-count = 0
 def create_list(data):
-
     data = data.splitlines()
     data = list(map(int, data))
     data = sorted(data)
-
     # Add device
     data.append(data[-1] + 3)
     # add start jolt
     data.insert(0, 0)
-    print(data)
     return data
-
-
-
-
-
-
-
-
-
 
 
 if __name__ == '__main__':
@@ -112,5 +102,3 @@ if __name__ == '__main__':
     adapter_list = create_list(DATA.Day_10)
     print("part 2 ans = {}".format((solve(0))))
     print(solve.cache_info())
-
-
