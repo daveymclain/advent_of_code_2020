@@ -111,5 +111,6 @@ if __name__ == '__main__':
     print("part 1 ans = {}".format(part_1_ans[0] * part_1_ans[1]))
     adapter_list = create_list(DATA.Day_10)
     print("part 2 ans = {}".format((solve(0))))
+    print(solve.cache_info())
 
 
