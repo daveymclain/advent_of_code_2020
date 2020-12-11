@@ -6,8 +6,8 @@ def create_list(data):
     data = data.splitlines()
     data = list(map(int, data))
     data = sorted(data)
-    data.append(data[-1] + 3) # Add device
-    data.insert(0, 0) # add start jolt
+    data.append(data[-1] + 3)  # Add device
+    data.insert(0, 0)  # add start jolt
     return data
 
 
