@@ -1,31 +1,18 @@
 import copy
 import DATA
 import time
-
-sample = """L.LL.LL.LL
-LLLLLLL.LL
-L.L.L..L..
-LLLL.LL.LL
-L.LL.LL.LL
-L.LLLLL.LL
-..L.L.....
-LLLLLLLLLL
-L.LLLLLL.L
-L.LLLLL.LL"""
-
-
+# vectors around a seat that will need testing
 vectors = [1, 0], [- 1, 0], [0, 1], [0, -1], \
           [- 1, 1], [1, 1], [1, -1], [-1, -1]
 
 
+def split(string):
+    """return a list of the individual characters in the string"""
+    return [char for char in string]
 
 
-
-def split(word):
-    return [char for char in word]
-
-
-def gen_test_list(row_pos, col_pos, d,  part_1=False):
+def gen_test_list(row_pos, col_pos, d, part_1=False):
+    """returns a list of other seats, around a seat, that need testing"""
     ret_list = []
     for angle in vectors:
         x, y = angle
@@ -45,18 +32,20 @@ def gen_test_list(row_pos, col_pos, d,  part_1=False):
             else:
                 ret_list.append([r, c])
                 break
-
     return ret_list
 
 
 def gen_test_dict(d, part_1=False):
+    """returns a dictionary of seats and a corresponding list of seats around it that need testing"""
     dict_test = {}
     for row in range(len(d)):
         for col in range(len(d[row])):
             dict_test[row, col] = gen_test_list(row, col, d, part_1)
     return dict_test
 
+
 def data_to_list(raw_data):
+    """returns a list from the raw data string"""
     d = raw_data.splitlines()
     re_list = []
     for i in d:
@@ -65,13 +54,11 @@ def data_to_list(raw_data):
     return re_list
 
 
-def seat_sim(date_list, dict_test, seat_occ):
-
-
-
+def seat_sim(data_list, dict_test, seat_occ):
+    """simulates people picking seats and returns the amount of seats taken when the simulation reaches equilibrium"""
     run = True
     while run:
-        test_seats = copy.deepcopy(date_list)
+        test_seats = copy.deepcopy(data_list)
         run = False
         for row, all_row in enumerate(test_seats):
 
@@ -92,16 +79,16 @@ def seat_sim(date_list, dict_test, seat_occ):
                         else:
                             empty_adj = False
                 if occ_count >= seat_occ and seat == "#":
-                    date_list[row][col] = "L"
+                    data_list[row][col] = "L"
                     run = True
                 if empty_adj and seat == "L":
-                    date_list[row][col] = "#"
+                    data_list[row][col] = "#"
 
                     run = True
-    part_1 = 0
-    for i in date_list:
-        part_1 += i.count("#")
-    return part_1
+    seats = 0
+    for i in data_list:
+        seats += i.count("#")
+    return seats
 
 
 if __name__ == '__main__':
