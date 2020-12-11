@@ -44,10 +44,13 @@ def gen_test_list(row_pos, col_pos, d):
         for width in range(len(d[0])):
             r += x
             c += y
-            if [r, c] in coord:
-                if d[r][c] in "#L":
-                    ret_list.append([r, c])
-                    break
+            if r > len(d) - 1 or r < 0:
+                break
+            if c > len(d[0]) - 1 or c < 0:
+                break
+            if d[r][c] in "#L":
+                ret_list.append([r, c])
+                break
     return ret_list
 
 
@@ -81,7 +84,6 @@ def seat_sim(date_list):
                 occ_count = 0
                 test_list = dict_test[row, col]
                 for check in test_list:
-                    # print(test_seats[check[0]][check[1]])
                     if seat == "#":
                         if test_seats[check[0]][check[1]] == "#":
                             occ_count += 1
