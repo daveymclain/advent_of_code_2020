@@ -13,29 +13,19 @@ LLLLLLLLLL
 L.LLLLLL.L
 L.LLLLL.LL"""
 
-seat_check_list = [[-1, -1], [-1, 0], [-1, 1]], \
-                  [[0, -1], [0, 1]], \
-                  [[1, -1], [1, 0], [1, 1]]
 
 vectors = [1, 0], [- 1, 0], [0, 1], [0, -1], \
           [- 1, 1], [1, 1], [1, -1], [-1, -1]
 
-dict_test = {}
+
+
 
 
 def split(word):
     return [char for char in word]
 
 
-def gen_coord(input_list):
-    re_list = []
-    for row in range(len(input_list)):
-        for col in range(len(input_list[row])):
-            re_list.append([row, col])
-    return re_list
-
-
-def gen_test_list(row_pos, col_pos, d):
+def gen_test_list(row_pos, col_pos, d,  part_1=False):
     ret_list = []
     for angle in vectors:
         x, y = angle
@@ -48,18 +38,23 @@ def gen_test_list(row_pos, col_pos, d):
                 break
             if c > len(d[0]) - 1 or c < 0:
                 break
-            if d[r][c] in "#L":
+            if not part_1:
+                if d[r][c] in "#L":
+                    ret_list.append([r, c])
+                    break
+            else:
                 ret_list.append([r, c])
                 break
+
     return ret_list
 
 
-def gen_test_dict(d):
-    global dict_test
+def gen_test_dict(d, part_1=False):
+    dict_test = {}
     for row in range(len(d)):
         for col in range(len(d[row])):
-            dict_test[row, col] = gen_test_list(row, col, d)
-
+            dict_test[row, col] = gen_test_list(row, col, d, part_1)
+    return dict_test
 
 def data_to_list(raw_data):
     d = raw_data.splitlines()
@@ -70,8 +65,10 @@ def data_to_list(raw_data):
     return re_list
 
 
-def seat_sim(date_list):
-    run_count = 0
+def seat_sim(date_list, dict_test, seat_occ):
+
+
+
     run = True
     while run:
         test_seats = copy.deepcopy(date_list)
@@ -82,8 +79,10 @@ def seat_sim(date_list):
                 # Check surrounding seats
                 empty_adj = True
                 occ_count = 0
-                test_list = dict_test[row, col]
-                for check in test_list:
+
+                test_lists = dict_test[row, col]
+
+                for check in test_lists:
                     if seat == "#":
                         if test_seats[check[0]][check[1]] == "#":
                             occ_count += 1
@@ -92,13 +91,12 @@ def seat_sim(date_list):
                             empty_adj = True
                         else:
                             empty_adj = False
-                if occ_count >= 5 and seat == "#":
+                if occ_count >= seat_occ and seat == "#":
                     date_list[row][col] = "L"
-                    run_count += 1
                     run = True
                 if empty_adj and seat == "L":
                     date_list[row][col] = "#"
-                    run_count += 1
+
                     run = True
     part_1 = 0
     for i in date_list:
@@ -108,10 +106,11 @@ def seat_sim(date_list):
 
 if __name__ == '__main__':
     start = time.time()
-    data = DATA.Day_11
-    coord = gen_coord(data_to_list(data))
-    gen_test_dict(data_to_list(data))
-    part_one_ans = (seat_sim(data_to_list(data)))
-    print("Part two answer = {}".format(part_one_ans))
+    data = data_to_list(DATA.Day_11)
+    part_one_ans = (seat_sim(data, gen_test_dict(data, True), 4))
+    print("Part one answer = {}".format(part_one_ans))
+    data = data_to_list(DATA.Day_11)
+    part_two_ans = (seat_sim(data, gen_test_dict(data), 5))
+    print("Part two answer = {}".format(part_two_ans))
     end = time.time()
     print("run time = {}".format(end - start))
