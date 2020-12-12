@@ -61,14 +61,11 @@ def seat_sim(data_list, dict_test, seat_occ):
         test_seats = copy.deepcopy(data_list)
         run = False
         for row, all_row in enumerate(test_seats):
-
             for col, seat in enumerate(test_seats[row]):
                 # Check surrounding seats
                 empty_adj = True
                 occ_count = 0
-
                 test_lists = dict_test[row, col]
-
                 for check in test_lists:
                     if seat == "#":
                         if test_seats[check[0]][check[1]] == "#":
@@ -83,7 +80,6 @@ def seat_sim(data_list, dict_test, seat_occ):
                     run = True
                 if empty_adj and seat == "L":
                     data_list[row][col] = "#"
-
                     run = True
     seats = 0
     for i in data_list:
