@@ -33,11 +33,6 @@ def turn(deg, current_dir):
 
 
 def rotate(origin, point, angle):
-    """
-    Rotate a point counterclockwise by a given angle around a given origin.
-
-    The angle should be given in radians.
-    """
     angle = math.radians(angle)
     ox, oy = origin
     px, py = point
