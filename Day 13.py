@@ -47,7 +47,7 @@ def offset_calc(bus_id_list):
 
 
 def test_ans(rev_list, bus_id_offset, test):
-    test = test - bus_id_offset[rev_list[0]]
+    test += bus_id_offset[rev_list[0]]
     for num, id in enumerate(rev_list):
         if num == len(rev_list) - 1:
             break
@@ -64,7 +64,6 @@ def main(raw_data):
     start_wait, bus_id_list = raw_data_to_list(raw_data)
     result_dict = {}
     bus_id_offset = offset_calc(bus_id_list)
-    print(bus_id_offset)
     for bus_id in bus_id_list:
         if bus_id == "x":
             continue
@@ -72,23 +71,26 @@ def main(raw_data):
     bus_id_lowest_wait = min(result_dict.items(), key=operator.itemgetter(1))[0]
     lowest_wait = result_dict[bus_id_lowest_wait]
     rev_list = bus_id_list[::-1]
+    pos_dict = {}
+    for num , id in enumerate(rev_list):
+        pos_dict[id] = num
+
     rev_list = [ x for x in rev_list if isinstance(x, int)]
-    print(rev_list)
+    print(pos_dict)
     run_2 = True
     test = 0
+    bus_id_big = sorted(rev_list)[-1]
     while run_2:
-        test += rev_list[0]
-        for num, id in enumerate(rev_list):
-            if num == len(rev_list) - 1:
-                break
-            dif = bus_id_offset[rev_list[0]] - bus_id_offset[rev_list[num + 1]]
-            if (test - dif) % rev_list[num + 1] == 0:
-                run_2 = False
-            else:
-                run_2 = True
-                break
+        test += rev_list[pos_dict[bus_id_big]]
+        offset = bus_id_offset[bus_id_big]
+        next_offset = bus_id_offset[rev_list[pos_dict[bus_id_big] + 1]]
 
-    test -= bus_id_offset[rev_list[0]]
+        dif = offset - next_offset
+        if (test - dif) % rev_list[pos_dict[bus_id_big] + 1] == 0:
+            if test_ans(rev_list, bus_id_offset, test - bus_id_offset[bus_id_big]):
+                run_2 = False
+
+    test -= bus_id_offset[bus_id_big]
     return lowest_wait * bus_id_lowest_wait, test
 
 
@@ -129,7 +131,7 @@ def main_2(raw_data):
 
 
 start = time.time()
-ans1, ans2 = main(sample_2)
+ans1, ans2 = main(sample)
 print(ans2)
 if ans2 == 1202161486:
     print("pass")
