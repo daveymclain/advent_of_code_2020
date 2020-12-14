@@ -80,7 +80,7 @@ def main(raw_data):
     start_number = number_increase
     print(rev_list)
     while run_2:
-        # print(test)
+
         test += number_increase
 
         for num, id in enumerate(rev_list):
@@ -111,11 +111,7 @@ if __name__ == '__main__':
 
     start = time.time()
     ans1, ans2 = main(DATA.Day_13)
+    print(ans1)
     print(ans2)
-    if ans2 == 1202161486:
-        print("pass")
-    else:
-        print("fail")
-
     end = time.time()
     print(end - start)
