@@ -18,13 +18,11 @@ def game(raw_data, finish_number):
     while turn != finish_number:
         turn += 1
         if last_num not in turn_results_dict.keys():
-            turn_results_dict[last_num] = turn - 1
             ans = 0
         else:
             ans = (turn - 1) - turn_results_dict[last_num]
-            turn_results_dict[last_num] = turn - 1
+        turn_results_dict[last_num] = turn - 1
         last_num = ans
-
     return last_num
 
 
