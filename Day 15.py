@@ -2,9 +2,10 @@ import DATA
 import time
 
 sample = 0, 3, 6
+sample_1 = 1,3,2
 
 
-def game(raw_data):
+def game(raw_data, finish_number):
     input_data = raw_data
     turn = 0
     turn_results_dict = {}
@@ -16,7 +17,7 @@ def game(raw_data):
             turn_results_dict[num] = [turn]  # list of all the turns the number was used.
             last_num_new = True
         last_num = num
-    while turn != 2020:
+    while turn != finish_number:
         turn += 1
         if last_num_new:
             turn_results_dict[0].append(turn)
@@ -33,5 +34,7 @@ def game(raw_data):
                 turn_results_dict[ans].append(turn)
     return last_num
 
-
-print(game(DATA.Day_15))
+start = time.time()
+print(game(DATA.Day_15, 30000000))
+end = time.time()
+print("Time taken = {}".format(end - start))
