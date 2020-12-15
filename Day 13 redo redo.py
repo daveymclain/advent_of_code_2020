@@ -4,7 +4,7 @@ import DATA
 
 sample = """939
 7,13,x,x,59,x,31,19"""
-sample_2 = """202
+sample_1 = """202
 1789,37,47,1889"""
 
 
@@ -47,7 +47,7 @@ def offset_calc(bus_id_list):
 
 
 def test_ans(rev_list, bus_id_offset, test):
-    test = test - bus_id_offset[rev_list[0]]
+    test += bus_id_offset[rev_list[0]]
     for num, id in enumerate(rev_list):
         if num == len(rev_list) - 1:
             break
@@ -64,7 +64,6 @@ def main(raw_data):
     start_wait, bus_id_list = raw_data_to_list(raw_data)
     result_dict = {}
     bus_id_offset = offset_calc(bus_id_list)
-    print(bus_id_offset)
     for bus_id in bus_id_list:
         if bus_id == "x":
             continue
@@ -73,68 +72,46 @@ def main(raw_data):
     lowest_wait = result_dict[bus_id_lowest_wait]
     rev_list = bus_id_list[::-1]
     rev_list = [ x for x in rev_list if isinstance(x, int)]
-    print(rev_list)
+
+    print(bus_id_offset)
     run_2 = True
     test = 0
+    number_increase = rev_list.pop(0)
+    start_number = number_increase
+    print(rev_list)
     while run_2:
-        test += rev_list[0]
+
+        test += number_increase
+
         for num, id in enumerate(rev_list):
-            if num == len(rev_list) - 1:
-                break
-            dif = bus_id_offset[rev_list[0]] - bus_id_offset[rev_list[num + 1]]
-            if (test - dif) % rev_list[num + 1] == 0:
-                run_2 = False
+            dif = bus_id_offset[start_number] - bus_id_offset[id]
+            if num == len(rev_list) -1:
+                if (test - dif) % id == 0:
+                    print("number {} solved".format(id))
+                    run_2 = False
+                    break
+                else:
+                    run_2 = True
+                    break
+            if (test - dif) % rev_list[num] == 0:
+                print(test)
+                number_increase = number_increase * rev_list.pop(0)
+                print("number increase = {}".format(number_increase))
+                print("number {} solved".format(id))
+                print("list {}. len {}".format(rev_list, len(rev_list)))
             else:
-                run_2 = True
                 break
 
-    test -= bus_id_offset[rev_list[0]]
+    test -= bus_id_offset[start_number]
     return lowest_wait * bus_id_lowest_wait, test
 
 
-def main_2(raw_data):
-    start_wait, bus_id_list = raw_data_to_list(raw_data)
-    result_dict = {}
-    bus_id_offset = offset_calc(bus_id_list)
-    print(bus_id_offset)
-    for bus_id in bus_id_list:
-        if bus_id == "x":
-            continue
-        result_dict[bus_id] = work_out_wait_time(start_wait, bus_id)
-    bus_id_lowest_wait = min(result_dict.items(), key=operator.itemgetter(1))[0]
-    lowest_wait = result_dict[bus_id_lowest_wait]
-    run = True
-    rev_list = bus_id_list[::-1]
-    rev_list = [ x for x in rev_list if isinstance(x, int)]
-    print(rev_list)
-    time = 0
-    time_increment = bus_id_list.pop(0)
-    while run:
-        time += time_increment
-        # print(time)
-        for num, bus_ids in enumerate(bus_id_list):
-            previous_bus_offset = 0
-            if bus_ids == "x":
-                continue
-            time_dif = work_out_wait_time_offset(time + previous_bus_offset, bus_ids)
 
-            prev = bus_id_offset[bus_ids] - previous_bus_offset
-            if time_dif == bus_id_offset[bus_ids] - previous_bus_offset:
-                run = False
-            else:
-                run = True
-                break
-            previous_bus_offset = bus_id_offset[bus_ids]
-    return [lowest_wait * bus_id_lowest_wait],[time]
+if __name__ == '__main__':
 
-
-start = time.time()
-ans1, ans2 = main(sample_2)
-print(ans2)
-if ans2 == 1202161486:
-    print("pass")
-else:
-    print("fail")
-
-end = time.time()
-print(end - start)
+    start = time.time()
+    ans1, ans2 = main(DATA.Day_13)
+    print(ans1)
+    print(ans2)
+    end = time.time()
+    print(end - start)
