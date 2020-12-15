@@ -42,6 +42,6 @@ def game(raw_data, finish_number):
 
 start = time.time()
 print("part one ans = {}".format(game(DATA.Day_15, 2020)))
-print("part two ans = {}".format(game(sample_1, 30000000)))
+print("part two ans = {}".format(game(DATA.Day_15, 30000000)))
 end = time.time()
 print("Time taken = {}".format(end - start))
