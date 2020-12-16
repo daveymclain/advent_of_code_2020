@@ -8,7 +8,7 @@ def sort_raw_data(raw_data):
     data = raw_data.splitlines()
     extract_data = data.copy()
     for line in extract_data:
-        # sport the ranges
+        # sort the ranges
         data.remove(line)
         if line == "":
             break
