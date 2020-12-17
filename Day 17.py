@@ -40,7 +40,6 @@ def print_boxes(boxes):
         slice = """"""
         for y in range(-3,6):
             for x in range(-3, 6):
-                # print(x,y,z)
                 if (x,y,z) in boxes:
                     if boxes[(x,y,z)]:
                         slice += "#"
