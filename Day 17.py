@@ -1,5 +1,6 @@
 import DATA
 import time
+from itertools import product
 
 sample = """.#.
 ..#
@@ -23,22 +24,11 @@ def parse_input_dict(raw_input, dimensions):
 def find_neighbors(coord):
     neighbor_list = []
     coord = list(coord)
-    for z in range(-1, 2):
-        for x in range(-1,2):
-            for y in range(-1, 2):
-                neighbor_list.append([coord[0] + x, coord[1] + y, coord[2] + z])
-    neighbor_list.remove(coord)
-    return neighbor_list
-
-
-def find_neighbors_4d(coord):
-    neighbor_list = []
-    coord = list(coord)
-    for w in range(-1, 2):
-        for z in range(-1, 2):
-            for x in range(-1,2):
-                for y in range(-1, 2):
-                    neighbor_list.append([coord[0] + x, coord[1] + y, coord[2] + z, coord[3] + w])
+    for i in product([-1, 0, 1], repeat=len(coord)):
+        temp_neighbor = []
+        for pos, offset in enumerate(i):
+            temp_neighbor.append(coord[pos] + offset)
+        neighbor_list.append(temp_neighbor)
     neighbor_list.remove(coord)
     return neighbor_list
 
@@ -68,8 +58,8 @@ def print_boxes(boxes):
         print()
 
 
-def sim(raw_data):
-    boxes = parse_input_dict(raw_data, 3)
+def sim(raw_data, dimensions):
+    boxes = parse_input_dict(raw_data, dimensions)
     for i in range(6):
         temp_dict = {}
         for box_coord in boxes:
@@ -98,43 +88,16 @@ def sim(raw_data):
     for coord in boxes:
         if boxes[coord]:
             count += 1
-    print(count)
+    return count
 
-
-def sim_4d(raw_data):
-    boxes = parse_input_dict(raw_data, 4)
-    for i in range(6):
-        temp_dict = {}
-        for box_coord in boxes:
-            if boxes[box_coord]:
-                for neigh in find_neighbors_4d(box_coord):
-                    if tuple(neigh) in temp_dict:
-                        temp_dict[tuple(neigh)] += 1
-                    else:
-                        temp_dict[tuple(neigh)] = 1
-        for temp_coord in temp_dict:
-            if temp_coord in boxes:
-                if boxes[temp_coord]:
-                    if temp_dict[temp_coord] in range(2, 4):
-                        boxes[temp_coord] = True
-                    else:
-                        boxes[temp_coord] = False
-                else:
-                    if temp_dict[temp_coord] == 3:
-                        boxes[temp_coord] = True
-            elif temp_dict[temp_coord] == 3:
-                boxes[temp_coord] = True
-        for box_coord in boxes:
-            if box_coord not in temp_dict:
-                boxes[box_coord] = False
-    count = 0
-    for coord in boxes:
-        if boxes[coord]:
-            count += 1
-    print(count)
 
 start = time.time()
-sim(DATA.Day_17)
-sim_4d(DATA.Day_17)
-
+print("part one ans = {}".format(sim(DATA.Day_17, 3)))
+end = time.time()
+print("part one took {} seconds".format(round(end - start, 4)))
+start_2 = time.time()
+print("part two ans = {}".format(sim(DATA.Day_17, 4)))
+end = time.time()
+print("part two took {} seconds".format(round(end - start_2, 4)))
+print("total time {} seconds".format(round(end - start, 4)))
 
