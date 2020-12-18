@@ -15,14 +15,12 @@ def get_bracket(equation):
 
     for b in bracket:
         sp = b.span()
-        # print(b)
         contents = b.group(0)
         first_half = raw[:sp[0]]
         second_half = raw[sp[1]:]
         contents = contents.replace("(", "").replace(")", "")
         contents = new_math(contents)
         raw = first_half + str(contents) + second_half
-        # print(raw)
         if ")" in raw or "(" in raw:
             raw = get_bracket(raw)
 
