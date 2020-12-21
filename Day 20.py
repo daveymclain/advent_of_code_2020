@@ -2,6 +2,7 @@ import DATA
 import time
 from itertools import product
 import re
+import math
 import types
 
 sample = """Tile 2311:
@@ -130,6 +131,7 @@ def bit_to_num(bit_mask):
 
 class Tile:
     def __init__(self, raw_tile):
+        self.type = ""
         self.possible_connections = 0
         self.ROTATION_RULE = {"invert", "invert", "same", "same"}
         self.raw = raw_tile
@@ -172,6 +174,8 @@ class Tile:
             self.rotation += 1
             self.sides = sides_temp
         self.rotation = self.rotation % 4
+    def orientate(self):
+        pass
 
 
 def parse_data(raw_data):
@@ -184,7 +188,10 @@ def main(raw_data):
     tiles = []
     for tile in data:
         tiles.append(Tile(tile))
-
+    corner_count = 0
+    edge_count = 0
+    middle_count = 0
+    corners = []
     for tile in tiles:
         count = 0
         for search_tile in tiles:
@@ -193,9 +200,38 @@ def main(raw_data):
             for side in tile.sides.values():
                 if side in search_tile.sides.values() or side in search_tile.invert.values():
                     count += 1
+                    tile.connected[search_tile.name] = side
         tile.possible_connections = count
-        print(count)
+        if count == 2:
+            corner_count += 1
+            corners.append(int(tile.name))
+            tile.type = "corner"
+        if count == 3:
+            edge_count += 1
+            tile.type = "edge"
+        if count == 4:
+            middle_count += 1
+            tile.type = "Middle"
+    result = 1
+    for corner_name in corners:
+        result = result * corner_name
+
+    print("corners = {}".format(corner_count))
+    print("edge = {}".format(edge_count))
+    print("middle = {}".format(middle_count))
+    row_length = math.sqrt(len(tiles))
+    print("row length {}".format(row_length))
+    print("result = {}".format(result))
+    gen_pic(tiles)
+
+
+def gen_pic(tiles):
+    for tile in tiles:
+        if tile.type == "corner":
+            print("connected {}\nsides {}\ninverted {}".format(tile.connected, tile.sides, tile.invert.values()))
+            break
+
 
 
 if __name__ == '__main__':
-    main(sample)
+    main(DATA.Day_20)
