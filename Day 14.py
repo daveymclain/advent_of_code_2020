@@ -64,7 +64,6 @@ def num_to_bit(num):
         if num < bit_num:
             ret_bit += "0"
             continue
-
         else:
             ret_bit += "1"
             num -= bit_num
