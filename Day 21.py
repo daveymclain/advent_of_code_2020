@@ -14,7 +14,7 @@ class Item:
         self.raw_line = line
         self.allergens = []
         self.ingredients = []
-        self.ingredients_edited =[]
+        self.ingredients_edited = []
         self.parse_line()
 
     def parse_line(self):
@@ -43,12 +43,14 @@ for item in items:
     for ingredient in item.ingredients_edited:
         not_allergens.append(ingredient)
 
+
 def check_ingredient(ingredient, allergen):
     for item in items:
         if allergen in item.allergens:
             if ingredient not in item.ingredients:
                 return False
     return True
+
 
 def remove_ingredient(ingredient, allergen):
     for item in items:
@@ -57,7 +59,7 @@ def remove_ingredient(ingredient, allergen):
 
 
 for i in range(1):
-    for pos_allergen,  item in enumerate(items):
+    for pos_allergen, item in enumerate(items):
         if len(item.allergens) == 1:
             single_allergen = item.allergens[0]
             single_allergen_ingredients = item.ingredients_edited.copy()
@@ -67,22 +69,10 @@ for i in range(1):
                 if not check_ingredient(ingredient, single_allergen):
                     remove_ingredient(ingredient, single_allergen)
 
-
-
-
-
-for i in items:
-    if len(i.allergens) == 1:
-        print(i.allergens[0])
-        print(i.ingredients_edited)
-
-
 for i in range(1):
     for pos, item in enumerate(items):
         if len(item.allergens) == 1:
             allergen = item.allergens[0]
-            print(allergen)
-            print(item.ingredients_edited)
             if len(item.ingredients_edited) == 1:
                 ingredient = item.ingredients_edited[0]
                 for pos_tes, item_test in enumerate(items):
@@ -92,8 +82,6 @@ for i in range(1):
                             if allergen not in item_test.allergens:
                                 for i in range(temp.count(ingredient)):
                                     item_test.ingredients_edited.remove(ingredient)
-
-
 
 allergens = {}
 for pos, item in enumerate(items):
@@ -140,9 +128,6 @@ for i in range(4):
                     if single_ingredient in item_del.ingredients:
                         item_del.ingredients.remove(single_ingredient)
 
-
-
-
 final = {}
 for item in items:
     if len(item.allergens) == 1:
@@ -151,15 +136,4 @@ for item in items:
 final_ans = ""
 for allergen in sorted(final):
     final_ans += final[allergen] + ","
-print(final_ans)
-
-
-
-
-# print(allergens)
-
-
-
-
-
-
+print(final_ans[:-1])
