@@ -45,7 +45,7 @@ def three_num_equation(equation, pos):
     func = equation.pop(pos)
     first_num = equation.pop(pos - 1)
     result = str(eval(first_num + func + last_num))
-    equation.insert(pos - 1, result)
+    equation.move(pos - 1, result)
     return equation
 
 

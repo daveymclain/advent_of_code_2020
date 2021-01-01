@@ -583,13 +583,13 @@ def search_monster(image):
                         # if end == end_2:
                         print("found the legs")
                         image[row - 1].pop(end - 2)
-                        image[row - 1].insert(end - 2, "O")
+                        image[row - 1].move(end - 2, "O")
                         for pos, group in enumerate(dragon_body.groups(), 1):
                             image[row].pop(dragon_body.span(pos)[0] + offset)
-                            image[row].insert(dragon_body.span(pos)[0] + offset, "O")
+                            image[row].move(dragon_body.span(pos)[0] + offset, "O")
                         for pos, group in enumerate(dragon_legs.groups(), 1):
                             image[row + 1].pop(dragon_legs.span(pos)[0] + legs[0] + 1)
-                            image[row + 1].insert(dragon_legs.span(pos)[0] + legs[0] + 1, "O")
+                            image[row + 1].move(dragon_legs.span(pos)[0] + legs[0] + 1, "O")
                         return True
                     else:
                         match = False
