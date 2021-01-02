@@ -62,26 +62,23 @@ def game(raw_data, amount, list_length=0):
     for i in range(len(cups)):
         final_list.append(current_cup)
         current_cup = cups[current_cup]
-
-    return final_list
+    return final_list, cups
 
 
 def part_1(cups):
-    result = ""
-    for pos, cup in enumerate(cups):
-        if cup == 1:
-            for i in range(len(cups) - 1):
-                pos += 1
-                result += str(cups[wrap_around_select(pos, len(cups))])
+    cup_1 = cups.index(1)
+    result = "".join(str(x) for x in cups[cup_1 + 1:])
+    result = result + "".join(str(x) for x in cups[:cup_1])
     return result
 
 
 def part_2(cups):
-    pos = cups.index(1)
-    return cups[pos + 1] * cups[pos + 2]
+    cup1 = cups[1]
+    cup2 = cups[cup1]
+    return cup1 * cup2
 
 
 start = time.time()
-print("part_1 {}".format(part_1(game(sample, 100))))
-print("part 2 {}".format(part_2(game(data, 10000000, 1000000))))
+print("part 1 {}".format(part_1(game(data, 100)[0])))
+print("part 2 {}".format(part_2(game(data, 10000000, 1000000)[1])))
 print("time = {}".format(time.time() - start))
