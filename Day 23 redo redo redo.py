@@ -1,12 +1,4 @@
-import DATA
 import time
-import re
-import math
-from memoization import cached
-from collections import deque
-import itertools
-
-sample = """389125467"""
 data = "215694783"
 
 
@@ -39,7 +31,7 @@ def game(raw_data, amount, list_length=0):
     cups_list = [int(a) for a in raw_data]
     generate_cups(cups_list, list_length)
     cups = convert_list_dict(cups_list)
-    biggest_cup = len(cups_list)
+    biggest_cup = max(cups_list)
     current_cup = cups_list[0]
     for game_round in range(1, amount + 1):
         cup_1 = cups[current_cup]
@@ -68,8 +60,7 @@ def game(raw_data, amount, list_length=0):
 def part_1(cups):
     cup_1 = cups.index(1)
     result = "".join(str(x) for x in cups[cup_1 + 1:])
-    result = result + "".join(str(x) for x in cups[:cup_1])
-    return result
+    return result + "".join(str(x) for x in cups[:cup_1])
 
 
 def part_2(cups):
