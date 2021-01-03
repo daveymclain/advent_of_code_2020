@@ -88,7 +88,7 @@ def part_2(flipped, days):
         for tile in tiles_next_to_black:
             if tiles_next_to_black[tile] == 2:
                 flipped[tile] = True
-    print("day two {}".format(len(flipped)))
+    print("Part two {}".format(len(flipped)))
 
 
 
